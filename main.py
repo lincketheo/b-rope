@@ -122,6 +122,8 @@ class LeafNode:
             self.next = rightNode
             rightNode.prev = self
             rightNode.next = next
+            if next is not None:
+                next.prev = rightNode
 
         return {
                 "right" : rightNode,
@@ -194,6 +196,14 @@ class InnerNode:
             # Update array
             array = result["array"]
 
+            if len(array) == 0:
+                return {
+                        "right" : None,
+                        "key" : None,
+                        "array" : array,
+                        }
+
+
         # At capacity - we need to split
         result = self.split()
 
@@ -212,13 +222,15 @@ class InnerNode:
         # Left
         lkeys = self.keys[:mid]
         lchildren = self.children[:mid+1]
-        self.keys = lkeys 
-        self.children = lchildren
 
         # Right
         rkeys = [i - key for i in self.keys[mid+1:]]
         rchildren = self.children[mid+1:]
         rightNode = InnerNode(rkeys, rchildren)
+
+        # Finally, update my keys and children
+        self.keys = lkeys 
+        self.children = lchildren
 
         return {
                 "right" : rightNode,
@@ -305,8 +317,9 @@ class BTRope:
 
 a = BTRope()
 a.insert(-1, [i for i in range(100)])
+a.insert(48, [-1])
 print(a)
 
-print(a.read(3, 100, 2))
+print(len(a.read(0, 1000, 1)))
 
 #print(a)
