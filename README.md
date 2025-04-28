@@ -2,6 +2,10 @@
 
 I don't know if this is a well know data structure or not, but I made a variant of the B+Tree as a rope instead. It's similar to a B+Tree, only the keys represent how many elements are stored on the left of them. 
 
+## TODO
+1. Bulk update nodes rather than going down then up over again 
+2. Memory efficiency
+
 ## Some notes about the difference between a B+Tree
 
 1. Within a single node, keys describe how many elements are in their left sub node AND their left neighbor sub tree:
